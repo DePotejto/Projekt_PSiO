@@ -7,14 +7,9 @@
 
 Player::Player(sf::Texture& Texture_, sf::Vector2f player_position_)
 {
-    player.setTexture(Texture_);
-    player.setPosition(player_position_);
-    speed = 200;
-}
-
-void Player::spawn(sf::RenderWindow &window)
-{
-    window.draw(player);
+    setTexture(Texture_);
+    setPosition(player_position_);
+    speed = 150;
 }
 
 void Player::update(float time)
@@ -32,20 +27,27 @@ void Player::update(float time)
         velocity.y=-500;
     }
 
-    if(player.getPosition().x<0.f){
-        player.setPosition(0.f, player.getPosition().y);
+    if(getPosition().x<0.f){
+       setPosition(0.f, getPosition().y);
     }
-    if(player.getPosition().x+player.getGlobalBounds().width>640){
-        player.setPosition(640-player.getGlobalBounds().width, player.getPosition().y);
+    if(getPosition().x+getGlobalBounds().width>640){
+        setPosition(640-getGlobalBounds().width, getPosition().y);
     }
-    if(player.getPosition().y+player.getGlobalBounds().height>480){
-        player.setPosition(player.getPosition().x, 480-player.getGlobalBounds().height);
+    if(getPosition().y+getGlobalBounds().height>480){
+        setPosition(getPosition().x, 480-getGlobalBounds().height);
         can_jump=true;
     }
     else{
         velocity.y += 1000*time;
     }
-    player.move(velocity*time);
+    move(velocity*time);
 }
-
-
+sf::Vector2f Player::get_velocity()
+{
+    return velocity;
+}
+void Player::set_velocity(sf::Vector2f velocity_)
+{
+    velocity.x=velocity_.x;
+    velocity.y=velocity_.y;
+}
